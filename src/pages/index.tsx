@@ -8,7 +8,7 @@ import { getRandomValues } from "crypto";
 import Image from "next/image";
 
 const MAX_POKEDEX_ID = 493;
-const getRandomPokemonIds = (exclude?: number): number => {
+const getRandomPokemonIds: (exclude?: number) => number = (exclude) => {
   const pokedexId = Math.floor(Math.random() * MAX_POKEDEX_ID) + 1;
 
   if (pokedexId !== exclude) {
@@ -18,7 +18,7 @@ const getRandomPokemonIds = (exclude?: number): number => {
   return getRandomPokemonIds(exclude);
 };
 
-const getPokedexOptions = (): number[] => {
+const getPokedexOptions = () => {
   const first = getRandomPokemonIds();
   const second = getRandomPokemonIds(first);
 
@@ -31,7 +31,7 @@ function handleVote(id: number) {
 
 const Home: NextPage = () => {
   const [pokemonIds, setPokemonIds] = useState(getPokedexOptions());
-  const [first, second] = pokemonIds;
+  const [first = 1, second = 2] = pokemonIds;
 
   const p1 = api.getPokemon.getPokemonById.useQuery({ id: first });
   const p2 = api.getPokemon.getPokemonById.useQuery({ id: second });
