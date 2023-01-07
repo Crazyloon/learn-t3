@@ -35,10 +35,11 @@ const Home: NextPage = () => {
 
   const p1 = api.getPokemon.getPokemonById.useQuery({ id: first });
   const p2 = api.getPokemon.getPokemonById.useQuery({ id: second });
-  const p1SpritePath = p1.data?.sprites.front_default;
-  const p2SpritePath = p2.data?.sprites.front_default;
+  const p1SpritePath = p1.data?.sprites.other?.dream_world.front_default;
+  const p2SpritePath = p2.data?.sprites.other?.dream_world.front_default;
 
   if (p1.isLoading || p2.isLoading) return null;
+  if (p1SpritePath == null || p2SpritePath == null) return null;
 
   return (
     <>
@@ -58,10 +59,12 @@ const Home: NextPage = () => {
               onClick={() => handleVote(first)}
             >
               <h3 className="text-2xl font-bold capitalize">{p1.data?.name}</h3>
-              <img
+              <Image
                 src={p1SpritePath}
                 alt={`Pokemon: ${first}`}
-                className="w-48"
+                className="h-48 w-48"
+                width={216}
+                height={216}
               />
             </button>
             <div className="text-center text-3xl font-bold text-white">VS</div>
@@ -70,10 +73,12 @@ const Home: NextPage = () => {
               onClick={() => handleVote(second)}
             >
               <h3 className="text-2xl font-bold capitalize">{p2.data?.name}</h3>
-              <img
+              <Image
                 src={p2SpritePath}
                 alt={`Pokemon: ${second}`}
-                className="w-48"
+                className="h-48 w-48"
+                width={216}
+                height={216}
               />
             </button>
           </div>
