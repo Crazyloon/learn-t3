@@ -1,7 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "./learn-t3/tsconfig.json"
   },
   "plugins": ["@typescript-eslint"],
   "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
@@ -9,3 +9,5 @@
     "@typescript-eslint/consistent-type-imports": "warn"
   }
 }
+
+// project folder thinks it's one directory up
