@@ -123,36 +123,38 @@ const TopRoundest: React.FC = () => {
     refetchInterval: 10000,
   });
 
-  if (!data?.success) {
-    return <div>ERROR</div>;
-  }
-
   return (
     <section className="pt-12">
       <h2 className="text-xl font-extrabold tracking-tight text-white lg:text-4xl">
         Top 10 roundest pokemon
       </h2>
       <div className="flex flex-col items-center pt-4">
-        {data.roundest.map((p) => (
-          <div
-            className="grid w-full grid-cols-3 items-center justify-center gap-2"
-            key={p.id}
-          >
-            <Image
-              src={p.sprites.other?.dream_world.front_default || ""}
-              alt={`Pokemon ${p.id}`}
-              className="h-9 w-9"
-              height={40}
-              width={40}
-            />
-            <span className="text-bold text-center text-lg capitalize text-white">
-              {p.name}
-            </span>
-            <span className="text-bold text-end text-lg capitalize text-white">
-              {p.votes}
-            </span>
+        {data ? (
+          data.roundest.map((p) => (
+            <div
+              className="grid w-full grid-cols-3 items-center justify-center gap-2"
+              key={p.id}
+            >
+              <Image
+                src={p.sprites.other?.dream_world.front_default || ""}
+                alt={`Pokemon ${p.id}`}
+                className="h-9 w-9"
+                height={40}
+                width={40}
+              />
+              <span className="text-bold text-center text-lg capitalize text-white">
+                {p.name}
+              </span>
+              <span className="text-bold text-end text-lg capitalize text-white">
+                {p.votes}
+              </span>
+            </div>
+          ))
+        ) : (
+          <div className="flex h-80 w-56 flex-col items-center justify-center rounded-xl border border-white/10 pt-4">
+            <div className="loader h-12 w-12 animate-spin rounded-full border-4 border-t-4 border-transparent border-t-gray-300 ease-linear"></div>
           </div>
-        ))}
+        )}
       </div>
     </section>
   );
