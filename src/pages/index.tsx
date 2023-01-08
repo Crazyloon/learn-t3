@@ -1,28 +1,9 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "../utils/api";
 import { useState } from "react";
-import { getRandomValues } from "crypto";
 import Image from "next/image";
-import { debug } from "console";
-import { number } from "zod";
-import { PokemonSprites } from "pokenode-ts";
-
-type RoundestResult = {
-  data:
-    | {
-        success: boolean;
-        roundest: {
-          name: string;
-          id: number;
-          votes: number;
-          sprites: PokemonSprites;
-        }[];
-      }
-    | undefined;
-};
 
 const MAX_POKEDEX_ID = 493;
 const getRandomPokemonIds: (exclude?: number) => number = (exclude) => {
@@ -45,11 +26,6 @@ const getPokedexOptions = () => {
 const Home: NextPage = () => {
   const [pokemonIds, setPokemonIds] = useState(getPokedexOptions());
   const [first = 1, second = 2] = pokemonIds;
-
-  // const { data } = api.getPokemon.getRoundestPokemon.useQuery();
-  const { data } = api.getPokemon.getRoundestPokemon.useQuery(undefined, {
-    refetchInterval: 10000,
-  });
 
   const voteMutation = api.getPokemon.castVote.useMutation();
 
@@ -75,7 +51,7 @@ const Home: NextPage = () => {
             Choose which Pokemon is more round
           </h1>
           <VotingBooth first={first} second={second} handleVote={handleVote} />
-          <TopRoundest data={data} />
+          <TopRoundest />
         </div>
       </main>
     </>
@@ -142,7 +118,11 @@ const VotingBooth = ({ first, second, handleVote }: VotingBoothTypes) => {
   );
 };
 
-const TopRoundest: React.FC<RoundestResult> = ({ data }) => {
+const TopRoundest: React.FC = () => {
+  const { data } = api.getPokemon.getRoundestPokemon.useQuery(undefined, {
+    refetchInterval: 10000,
+  });
+
   if (!data?.success) {
     return <div>ERROR</div>;
   }
